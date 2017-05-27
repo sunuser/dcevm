@@ -35,21 +35,31 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Main {
 
     public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            // Ignore everything
+        if (args.length==0) {
+            System.out.println("usage: -g | jdk_path");
+            System.exit(0);
         }
 
-        MainWindow w;
-        try {
-            w = new MainWindow();
-            w.setLocationRelativeTo(null);
-            w.setVisible(true);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage(), ex.getMessage(), JOptionPane.ERROR_MESSAGE);
-        }
+        //进入图形界面
+        if (args[0].equals("-g")) {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception e) {
+                // Ignore everything
+            }
 
+            MainWindow w;
+            try {
+                w = new MainWindow();
+                w.setLocationRelativeTo(null);
+                w.setVisible(true);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, ex.getMessage(), ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            MainCommandLine commandLine = new MainCommandLine(args[0]);
+            commandLine.run();
+        }
     }
 }
